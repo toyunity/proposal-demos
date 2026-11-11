@@ -3,136 +3,221 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>견적 참여 정원·연락처 공개 시연</title>
+<title>청소 견적 매칭·구인 시연</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;600;900&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#EEF4F6;--card:#fff;--ink:#14213D;--mute:#5B6780;--line:#CFDAE0;--teal:#0B7A75;--glove:#FFC43D;--stop:#B8402A;--soft:#DDEFEE}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 "Gothic A1",system-ui,sans-serif}
-.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
-header{padding:30px 0 0}
-h1{font-weight:900;font-size:clamp(28px,5.4vw,46px);line-height:1.2;margin:0 0 10px;letter-spacing:-.02em}
-h2{font-weight:900;font-size:clamp(20px,3.6vw,26px);margin:0 0 4px}
-.lead{margin:0;color:var(--mute);max-width:38em}
-.note{font-size:13px;color:var(--mute);margin:10px 0 0}
-.who{position:sticky;top:0;z-index:2;background:var(--ink);color:#fff;margin:22px -16px 0;padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.who b{font-weight:600;margin-right:4px;font-size:14px}
-.who button{border:1.5px solid #fff;background:none;color:#fff;border-radius:999px;padding:6px 14px;font:600 14px "Gothic A1",sans-serif;cursor:pointer}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.6 "Gothic A1",system-ui,sans-serif}
+button,input,select{font-family:inherit;font-size:15px;color:var(--ink)}
+button{cursor:pointer}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 56px}
+header{padding:28px 0 0}
+h1{font-weight:900;font-size:clamp(26px,5vw,42px);line-height:1.2;margin:0 0 10px;letter-spacing:-.02em}
+h2{font-weight:900;font-size:20px;margin:0 0 4px}
+h3{font-weight:600;font-size:16px;margin:0}
+.lead{margin:0;color:var(--mute);max-width:42em}
+.note{font-size:13px;color:var(--mute);margin:8px 0 0}
+ol.guide{margin:14px 0 0;padding-left:20px;color:var(--mute);font-size:14px}
+.who{position:sticky;top:0;z-index:3;background:var(--ink);color:#fff;margin:20px -16px 0;padding:10px 16px}
+.who p{margin:0 0 6px;font-size:13px;font-weight:600}
+.who div{display:flex;flex-wrap:wrap;gap:6px}
+.who button{border:1.5px solid #8FA0C0;background:none;color:#fff;border-radius:999px;padding:5px 12px;font-weight:600;font-size:14px}
 .who button[aria-pressed=true]{background:var(--glove);border-color:var(--glove);color:var(--ink)}
+.who button small{font-weight:400;opacity:.8}
 :focus-visible{outline:3px solid var(--glove);outline-offset:2px}
-section{padding:30px 0}
-.cols{display:grid;grid-template-columns:5fr 6fr;gap:20px;margin-top:18px;align-items:start}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
-dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:12px 0 0}
-dt{color:var(--mute);font-size:14px}dd{margin:0;font-weight:600}
-.contact{margin-top:16px;padding:14px;border-radius:10px;background:var(--bg);border:1.5px dashed var(--mute)}
+.me{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin:22px 0 4px}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:10px;overflow:hidden;background:#fff}
+.seg button{border:0;background:none;padding:7px 14px;font-weight:600}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--ink);margin-top:14px;overflow-x:auto}
+.tabs button{border:0;background:none;padding:9px 14px;font-weight:600;color:var(--mute);border-radius:8px 8px 0 0;white-space:nowrap}
+.tabs button[aria-selected=true]{background:var(--ink);color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:14px}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.meta{color:var(--mute);font-size:14px}
+.contact{margin-top:12px;padding:10px 14px;border-radius:10px;background:var(--bg);border:1.5px dashed var(--mute)}
 .contact.open{background:var(--soft);border:1.5px solid var(--teal)}
-.contact strong{display:block;font-weight:900;font-size:22px;letter-spacing:.02em}
-.contact span{font-size:14px;color:var(--mute)}
-.seats{display:flex;gap:8px;margin:14px 0 4px}
-.seats i{flex:1;height:14px;border-radius:7px;background:var(--line)}
+.contact strong{font-weight:900;font-size:19px;margin-right:10px}
+.contact span{font-size:13px;color:var(--mute)}
+.seats{display:flex;gap:5px;margin:10px 0 2px;max-width:220px}
+.seats i{flex:1;height:10px;border-radius:5px;background:var(--line)}
 .seats i.on{background:var(--teal)}
-.firms li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
-.firms li:last-child{border:0}
-ul{list-style:none;margin:0;padding:0}
-.firms small{display:block;color:var(--mute);font-size:13px}
-.firms li.me{background:linear-gradient(90deg,var(--soft),transparent);margin:0 -18px;padding:12px 18px}
-.btn{border:0;border-radius:9px;padding:10px 16px;font:600 15px "Gothic A1",sans-serif;cursor:pointer;background:var(--teal);color:#fff;white-space:nowrap}
+.btn{border:0;border-radius:9px;padding:9px 15px;font-weight:600;background:var(--teal);color:#fff;white-space:nowrap}
 .btn.ghost{background:#fff;color:var(--stop);border:1.5px solid var(--stop)}
+.btn.dark{background:var(--ink)}
 .btn:disabled{background:var(--line);color:var(--mute);cursor:not-allowed}
-.state{font-size:14px;font-weight:600;color:var(--teal);white-space:nowrap}
-.state.no{color:var(--mute)}
-.result{display:flex;gap:6px}
-.result button{border:1.5px solid var(--ink);background:#fff;border-radius:8px;padding:6px 10px;font:600 13px "Gothic A1",sans-serif;cursor:pointer}
-.result button[aria-pressed=true]{background:var(--ink);color:#fff}
-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px}
-th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}
+.acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.chip{border:1.5px solid var(--ink);background:#fff;border-radius:8px;padding:5px 10px;font-weight:600;font-size:13px}
+.chip[aria-pressed=true]{background:var(--ink);color:#fff}
+.badge{display:inline-block;border-radius:999px;font-size:12px;font-weight:600;padding:2px 9px;background:var(--soft);color:var(--teal)}
+.badge.wait{background:#FFF1CC;color:#7A5200}.badge.no{background:#F6DFD9;color:var(--stop)}
+form,.form{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:end}
+label{display:grid;gap:4px;font-size:13px;font-weight:600}
+select,input[type=text]{height:42px;border:1.5px solid var(--ink);border-radius:9px;padding:0 10px;background:#fff;width:100%}
+.wide{grid-column:span 2}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:top}
 th{color:var(--mute);font-weight:600}
-.empty{color:var(--mute);font-size:14px;padding:12px 0}
-.say{margin-top:14px;font-size:15px;font-weight:600;min-height:24px}
-.say.err{color:var(--stop)}
-footer{padding:20px 0 48px;color:var(--mute);font-size:13px}
-@media (max-width:780px){.cols{grid-template-columns:1fr}}
+.scrollx{overflow-x:auto}
+.empty{color:var(--mute);padding:6px 0}
+.say{position:sticky;bottom:12px;margin-top:16px;background:var(--ink);color:#fff;border-radius:10px;padding:11px 14px;font-weight:600;box-shadow:0 6px 0 rgba(20,33,61,.15)}
+.say.err{background:var(--stop)}
+ul{list-style:none;margin:0;padding:0}
+.sub li{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--line)}
+@media (max-width:700px){form,.form{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <h1>연락처는 견적에 참여한<br>업체 세 곳에만 열립니다</h1>
-  <p class="lead">1차 개발의 중요 요구사항인 참여업체 수 제한과 고객 연락처 공개를 직접 눌러 보실 수 있게 만들었습니다. 아래 검은 띠에서 보는 사람을 바꿔 가며 확인해 보세요.</p>
-  <p class="note">시연용 화면입니다. 업체명과 연락처는 모두 예시이며 입력한 내용은 저장되지 않습니다.</p>
+  <h1>연락처는 견적에 참여한<br>업체에만 열립니다</h1>
+  <p class="lead">1차 MVP의 필수 흐름을 미리 눌러 보실 수 있게 만들었습니다. 아래 검은 띠에서 사람을 바꾸면 그 사람의 화면으로 바뀝니다.</p>
+  <ol class="guide"><li>고객으로 견적요청을 올립니다.</li><li>업체로 바꿔 견적에 참여합니다. 정원이 차면 다른 업체는 참여할 수 없고 연락처도 볼 수 없습니다.</li><li>한 회원이 업체와 작업자 역할을 오가며, 작업자는 구인공고에 혼자 또는 팀으로 지원합니다.</li><li>관리자로 바꿔 업체 승인, 유입 경로, 계약 결과, 연락처 열람 기록을 확인합니다.</li></ol>
+  <p class="note">시연용 화면입니다. 이름과 연락처는 모두 예시이며 새로 고치면 처음 상태로 돌아갑니다.</p>
 </header>
-<div class="who" role="group" aria-label="보는 사람 선택"><b>지금 보는 사람</b><span id="who"></span></div>
-
-<section>
-  <div class="cols">
-    <div class="card">
-      <h2>견적요청</h2>
-      <dl><dt>청소 유형</dt><dd>입주 청소</dd><dt>지역</dt><dd>경기 수원시</dd><dt>면적</dt><dd>84㎡ (방 3, 화장실 2)</dd><dt>희망일</dt><dd>12월 6일 오전</dd><dt>유입 경로</dt><dd id="via">검색 광고</dd></dl>
-      <div class="contact" id="contact"></div>
-      <div class="seats" id="seats" aria-hidden="true"></div>
-      <div id="seatTxt" style="font-size:14px;font-weight:600"></div>
-    </div>
-    <div class="card">
-      <h2 id="listTitle">견적 참여 업체</h2>
-      <ul class="firms" id="firms"></ul>
-      <div class="say" id="say" role="status"></div>
-    </div>
-  </div>
-</section>
-
-<section id="adminOnly">
-  <h2>연락처 열람 기록</h2>
-  <p class="lead">누가 언제 고객 연락처를 봤는지 관리자가 확인합니다. 업체 화면으로 바꿔 참여한 뒤 돌아와 보세요.</p>
-  <div class="card" style="margin-top:14px;padding:6px 18px 12px"><div id="log"></div></div>
-</section>
-
-<footer>복수 역할 전환, 구인공고와 팀 지원, 유입 경로 수집은 본 개발 범위에 포함되며 이 시연에는 넣지 않았습니다.</footer>
+<div class="who"><p>지금 보는 사람</p><div id="who" role="group" aria-label="보는 사람 선택"></div></div>
+<main id="main"></main>
 </div>
 <script>
-const LIMIT=3, PHONE='050-0000-1234';
-const firms=['맑은집 클린','새봄 청소','반짝 홈케어','하루 클리닝','온누리 청소'].map((n,i)=>({id:i,n,area:['수원','수원·용인','화성·수원','수원','용인·수원'][i],joined:false,result:null}));
-const viewers=[{k:'admin',n:'관리자'},{k:'customer',n:'고객'},...firms.map(f=>({k:f.id,n:f.n}))];
-let me='admin';const log=[];const $=id=>document.getElementById(id);
-const count=()=>firms.filter(f=>f.joined).length;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const opt=(v,t,cur)=>`<option value="${esc(v)}"${String(v)===String(cur)?' selected':''}>${esc(t)}</option>`;
 const now=()=>new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-// 연락처는 고객 본인, 관리자, 참여한 업체에게만 보인다 (실제 서비스에서는 서버가 같은 규칙으로 값을 내려 주지 않음)
-function canSee(k){return k==='admin'||k==='customer'||(typeof k==='number'&&firms[k].joined)}
-// 정원이 찼으면 참여 불가. 실제 서비스에서는 DB에서 한 건씩 잠가 동시 요청에도 정원을 넘지 않게 함
-function join(id){const f=firms[id];if(f.joined)return'already';if(count()>=LIMIT)return'full';f.joined=true;log.unshift([now(),f.n,'견적 참여, 연락처 열람']);return'ok'}
-function leave(id){const f=firms[id];if(!f.joined)return;f.joined=false;f.result=null;log.unshift([now(),f.n,'참여 취소, 연락처 열람 권한 회수'])}
-function render(){
-  $('who').innerHTML=viewers.map(v=>`<button data-k="${v.k}" aria-pressed="${String(v.k)===String(me)}">${v.n}</button>`).join(' ');
-  const c=count(),isFirm=typeof me==='number';
-  $('seats').innerHTML=Array.from({length:LIMIT},(_,i)=>`<i class="${i<c?'on':''}"></i>`).join('');
-  $('seatTxt').textContent=c>=LIMIT?`참여 정원 ${LIMIT}곳이 모두 찼습니다`:`참여 ${c}곳 / 정원 ${LIMIT}곳, ${LIMIT-c}곳 더 참여할 수 있습니다`;
-  const box=$('contact');
-  if(canSee(me)){box.className='contact open';box.innerHTML=`<span>고객 연락처</span><strong>${PHONE}</strong><span>${isFirm?'견적에 참여해 연락처가 열렸습니다':me==='admin'?'관리자는 항상 볼 수 있습니다':'내 연락처입니다. 참여한 업체에만 보입니다'}</span>`}
-  else{box.className='contact';box.innerHTML=`<span>고객 연락처</span><strong>050-****-****</strong><span>${c>=LIMIT?'정원이 차서 참여할 수 없고, 연락처도 볼 수 없습니다':'견적에 참여하면 연락처가 열립니다'}</span>`}
-  $('listTitle').textContent=isFirm?'업체 화면':me==='admin'?'참여 현황과 계약 결과':'내 견적에 참여한 업체';
-  const list=me==='customer'?firms.filter(f=>f.joined):firms;
-  $('firms').innerHTML=list.length?list.map(f=>{
-    let right;
-    if(isFirm&&f.id===me) right=f.joined?`<button class="btn ghost" data-leave="${f.id}">참여 취소</button>`:`<button class="btn" data-join="${f.id}" ${c>=LIMIT?'disabled':''}>${c>=LIMIT?'정원 마감':'견적 참여'}</button>`;
-    else if(me==='admin'&&f.joined) right=`<div class="result" role="group" aria-label="${f.n} 계약 결과">${['진행 중','성사','미성사'].map(r=>`<button data-res="${f.id}" data-v="${r}" aria-pressed="${f.result===r}">${r}</button>`).join('')}</div>`;
-    else right=`<span class="state${f.joined?'':' no'}">${f.joined?'참여함':'참여 안 함'}</span>`;
-    return `<li class="${f.id===me?'me':''}"><div><b>${f.n}</b><small>활동 지역 ${f.area}</small></div>${right}</li>`}).join(''):'<li class="empty">아직 참여한 업체가 없습니다. 업체 화면으로 바꿔 견적에 참여해 보세요.</li>';
-  $('adminOnly').hidden=me!=='admin';
-  $('log').innerHTML=log.length?`<table><tr><th>시각</th><th>업체</th><th>내용</th></tr>${log.map(l=>`<tr><td>${l[0]}</td><td>${l[1]}</td><td>${l[2]}</td></tr>`).join('')}</table>`:'<div class="empty">아직 열람 기록이 없습니다.</div>';
-}
-function say(t,err){const s=$('say');s.textContent=t;s.className='say'+(err?' err':'')}
-document.addEventListener('click',e=>{
-  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
-  if('k' in d){me=isNaN(d.k)?d.k:+d.k;say('')}
-  else if('join' in d){const r=join(+d.join);say(r==='ok'?'견적에 참여했습니다. 고객 연락처가 열렸습니다.':'정원이 차서 참여할 수 없습니다.',r!=='ok')}
-  else if('leave' in d){leave(+d.leave);say('참여를 취소했습니다. 연락처는 다시 가려지고 정원 한 자리가 비었습니다.')}
-  else if('res' in d){const f=firms[+d.res];f.result=d.v;log.unshift([now(),f.n,'계약 결과 기록: '+d.v]);say(`${f.n}의 계약 결과를 '${d.v}'(으)로 기록했습니다.`)}
-  render();
-});
-// self-check: 정원과 연락처 공개 규칙
-(function(){join(0);join(1);join(2);console.assert(join(3)==='full'&&!canSee(3)&&canSee(2),'limit check failed');leave(2);console.assert(!canSee(2)&&join(3)==='ok','leave check failed');firms.forEach(f=>{f.joined=false});log.length=0})();
-join(0);render();
+// 회원 1명이 역할을 여러 개 가질 수 있다. firm은 업체 역할 정보(관리자 승인 필요), worker는 작업자 역할 보유 여부
+const members=[
+ {id:'c1',name:'김○○',roles:['customer'],phone:'050-0000-1234'},
+ {id:'m1',name:'한○○',roles:['firm','worker'],firm:{name:'맑은집 클린',ok:true}},
+ {id:'m2',name:'오○○',roles:['firm'],firm:{name:'새봄 청소',ok:true}},
+ {id:'m3',name:'서○○',roles:['firm'],firm:{name:'반짝 홈케어',ok:true}},
+ {id:'m4',name:'문○○',roles:['firm'],firm:{name:'하루 클리닝',ok:false}},
+ {id:'w1',name:'이○○',roles:['worker']},
+ {id:'w2',name:'박○○',roles:['worker']},
+ {id:'admin',name:'관리자',roles:['admin']}];
+const M=id=>members.find(m=>m.id===id), ROLE={customer:'고객',firm:'업체',worker:'작업자',admin:'관리자'};
+const label=m=>m.firm?m.firm.name:m.name;
+let seq=1;const cfg={limit:3};
+const reqs=[{id:seq++,owner:'c1',type:'입주 청소',area:'경기 수원시',date:'12월 6일 오전',size:'84㎡',src:'검색 광고',limit:3,joins:[{m:'m2',st:'상담 중',result:'진행 중'}]}];
+const posts=[{id:seq++,m:'m2',area:'경기 수원시',date:'12월 6일',need:2,pay:'일당 15만원',open:true}];
+const apps=[];const log=[];
+const ui={me:'c1',role:'customer',tab:'',say:'',err:false,rf:{type:'입주 청소',area:'경기 수원시',date:'',size:'84㎡',src:'검색 광고'},pf:{area:'',date:'',need:2,pay:''},mate:{}};
+const me=()=>M(ui.me), count=r=>r.joins.length, joined=(r,id)=>r.joins.find(j=>j.m===id);
+// 연락처 공개 규칙: 관리자, 요청한 고객 본인, 참여한 업체만. 실제 서비스에서는 서버가 같은 규칙으로 값을 내려 주지 않는다
+function canSee(r,viewer,role){return role==='admin'||(role==='customer'&&r.owner===viewer)||(role==='firm'&&!!joined(r,viewer))}
+// 참여: 승인된 업체만, 정원 안에서만. 실제 서비스에서는 DB에서 한 건씩 잠가 동시 요청에도 정원을 넘지 않게 한다
+function join(r,id){const m=M(id);if(!m.firm||!m.firm.ok)return'승인 대기 중인 업체는 견적에 참여할 수 없습니다.';if(joined(r,id))return'이미 참여한 견적입니다.';
+  if(count(r)>=r.limit)return'참여 정원 '+r.limit+'곳이 모두 차서 참여할 수 없습니다.';r.joins.push({m:id,st:'상담 중',result:'진행 중'});log.unshift([now(),label(m),'견적 참여, 고객 연락처 열람',r.id]);return''}
+function leave(r,id){const i=r.joins.findIndex(j=>j.m===id);if(i<0)return;r.joins.splice(i,1);log.unshift([now(),label(M(id)),'참여 취소, 열람 권한 회수',r.id])}
+// 팀 지원은 초대받은 팀원이 모두 동의해야 지원 완료가 된다
+function appState(a){return a.st||(a.team.every(t=>t.agreed)?'지원 완료':'팀원 동의 대기')}
+
+function seats(r){return `<div class="seats" aria-hidden="true">${Array.from({length:r.limit},(_,i)=>`<i class="${i<count(r)?'on':''}"></i>`).join('')}</div><div class="meta">참여 ${count(r)}곳 / 정원 ${r.limit}곳</div>`}
+function contact(r){const o=M(r.owner),see=canSee(r,ui.me,ui.role),full=count(r)>=r.limit;
+  return see?`<div class="contact open"><strong>${o.phone}</strong><span>${ui.role==='firm'?'견적에 참여해 연락처가 열렸습니다':ui.role==='admin'?'관리자는 항상 볼 수 있습니다':'내 연락처. 참여한 업체에만 보입니다'}</span></div>`
+   :`<div class="contact"><strong>050-****-****</strong><span>${full?'정원이 차서 볼 수 없습니다':'견적에 참여하면 열립니다'}</span></div>`}
+const reqHead=r=>`<div class="top"><div><h3>${esc(r.type)} · ${esc(r.area)}</h3><div class="meta">${esc(r.size)} · 희망일 ${esc(r.date)} · 요청 번호 ${r.id}</div></div>`;
+
+function vCustomer(){const f=ui.rf,mine=reqs.filter(r=>r.owner===ui.me);
+  let h=`<div class="card"><h2>청소 견적 요청하기</h2><div class="form" style="margin-top:10px">
+   <label>청소 유형<select data-bind="rf.type">${['입주 청소','이사 청소','사무실 청소','거주 청소'].map(x=>opt(x,x,f.type)).join('')}</select></label>
+   <label>지역<select data-bind="rf.area">${['경기 수원시','경기 용인시','경기 화성시','서울 강남구'].map(x=>opt(x,x,f.area)).join('')}</select></label>
+   <label>면적<select data-bind="rf.size">${['59㎡','84㎡','114㎡','165㎡ 이상'].map(x=>opt(x,x,f.size)).join('')}</select></label>
+   <label>희망일<input type="text" data-bind="rf.date" value="${esc(f.date)}" placeholder="예: 12월 14일 오후" maxlength="16"></label>
+   <label class="wide">들어온 경로 (시연용, 실제로는 자동 기록)<select data-bind="rf.src">${['검색 광고','포털 검색','직접 방문','지인 추천 링크'].map(x=>opt(x,x,f.src)).join('')}</select></label>
+   <button class="btn wide" data-act="req">견적 요청 올리기</button></div></div><h2 style="margin-top:26px">내 견적요청</h2>`;
+  h+=mine.map(r=>`<div class="card">${reqHead(r)}</div>${seats(r)}${contact(r)}
+   <ul class="sub" style="margin-top:12px">${r.joins.length?r.joins.map(j=>`<li><b>${esc(label(M(j.m)))}</b><span><span class="badge">${j.st}</span> <span class="badge ${j.result==='미성사'?'no':j.result==='진행 중'?'wait':''}">계약 ${j.result}</span></span></li>`).join(''):'<li class="empty">아직 참여한 업체가 없습니다. 위 검은 띠에서 업체로 바꿔 참여해 보세요.</li>'}</ul></div>`).join('');
+  return h}
+
+function vFirm(){const m=me(),f=m.firm;let h='';
+  if(!f.ok) h+=`<div class="card" style="border-color:var(--stop)"><b>관리자 승인을 기다리는 중입니다.</b><div class="meta">사업자 정보 확인 후 승인되면 견적에 참여하고 구인공고를 올릴 수 있습니다. 검은 띠에서 관리자로 바꿔 승인해 보세요.</div></div>`;
+  h+=tabs([['req','견적요청'],['post','구인공고']]);
+  if(ui.tab==='req'){
+    h+=reqs.map(r=>{const j=joined(r,m.id),full=count(r)>=r.limit;
+      return `<div class="card">${reqHead(r)}${j?'<span class="badge">참여 중</span>':full?'<span class="badge no">정원 마감</span>':''}</div>${seats(r)}${contact(r)}
+      ${j?`<div class="acts"><span class="meta">상담 상태</span>${['상담 중','견적 발송','방문 예정'].map(s=>`<button class="chip" data-act="st" data-r="${r.id}" data-v="${s}" aria-pressed="${j.st===s}">${s}</button>`).join('')}</div>
+        <div class="acts"><span class="meta">계약 결과</span>${['진행 중','성사','미성사'].map(s=>`<button class="chip" data-act="res" data-r="${r.id}" data-v="${s}" aria-pressed="${j.result===s}">${s}</button>`).join('')}<button class="btn ghost" data-act="leave" data-r="${r.id}">참여 취소</button></div>`
+       :`<div class="acts"><button class="btn" data-act="join" data-r="${r.id}" ${full||!f.ok?'disabled':''}>${!f.ok?'승인 후 참여 가능':full?'정원 마감':'견적 참여'}</button></div>`}</div>`}).join('');
+  }else{const p=ui.pf,mine=posts.filter(x=>x.m===m.id);
+    h+=`<div class="card"><h2>구인공고 올리기</h2><div class="form" style="margin-top:10px">
+     <label>모집 지역<input type="text" data-bind="pf.area" value="${esc(p.area)}" placeholder="예: 경기 용인시" maxlength="14"></label>
+     <label>작업일<input type="text" data-bind="pf.date" value="${esc(p.date)}" placeholder="예: 12월 10일" maxlength="12"></label>
+     <label>모집 인원<select data-bind="pf.need">${[1,2,3,4,6].map(n=>opt(n,n+'명',p.need)).join('')}</select></label>
+     <label>조건<input type="text" data-bind="pf.pay" value="${esc(p.pay)}" placeholder="예: 일당 15만원" maxlength="14"></label>
+     <button class="btn wide" data-act="post" ${f.ok?'':'disabled'}>구인공고 등록</button></div></div>`;
+    h+=mine.map(x=>{const as=apps.filter(a=>a.post===x.id);
+      return `<div class="card"><div class="top"><div><h3>${esc(x.area)} · ${esc(x.date)}</h3><div class="meta">${x.need}명 모집 · ${esc(x.pay)}</div></div>${x.open?`<button class="btn ghost" data-act="closep" data-p="${x.id}">모집 마감</button>`:'<span class="badge no">마감</span>'}</div>
+      <ul class="sub" style="margin-top:10px">${as.length?as.map(a=>{const s=appState(a);return `<li><span><b>${esc(M(a.lead).name)}</b> ${a.team.length?`팀 ${a.team.length+1}명 (${a.team.map(t=>esc(M(t.m).name)).join(', ')})`:'개인'}</span>
+        <span>${s==='지원 완료'?`<button class="btn" data-act="ok" data-a="${a.id}">승인</button> <button class="btn ghost" data-act="no" data-a="${a.id}">거절</button>`:`<span class="badge ${s==='승인'?'':s==='거절'?'no':'wait'}">${s}</span>`}</span></li>`}).join(''):'<li class="empty">아직 지원자가 없습니다. 검은 띠에서 작업자로 바꿔 지원해 보세요.</li>'}</ul></div>`}).join('')||'<p class="empty">올린 구인공고가 없습니다.</p>';
+  }
+  return h}
+
+function vWorker(){const m=me();let h='';
+  const inv=apps.filter(a=>a.team.some(t=>t.m===m.id&&!t.agreed)&&!a.st);
+  h+=inv.map(a=>{const p=posts.find(x=>x.id===a.post);return `<div class="card" style="border:2px solid var(--glove)"><b>${esc(M(a.lead).name)}님이 팀 지원에 초대했습니다.</b><div class="meta">${esc(label(M(p.m)))} · ${esc(p.area)} · ${esc(p.date)} · ${esc(p.pay)}</div>
+    <div class="acts"><button class="btn" data-act="agree" data-a="${a.id}">참여 동의</button><button class="btn ghost" data-act="decline" data-a="${a.id}">거절</button></div></div>`}).join('');
+  h+=`<h2 style="margin-top:22px">구인공고</h2>`;
+  const mates=members.filter(x=>x.roles.includes('worker')&&x.id!==m.id);
+  h+=posts.filter(p=>p.m!==m.id).map(p=>{const a=apps.find(x=>x.post===p.id&&(x.lead===m.id||x.team.some(t=>t.m===m.id&&t.agreed))),s=a&&appState(a);
+    return `<div class="card"><div class="top"><div><h3>${esc(label(M(p.m)))} · ${esc(p.area)}</h3><div class="meta">${esc(p.date)} · ${p.need}명 모집 · ${esc(p.pay)}</div></div>${a?`<span class="badge ${s==='승인'||s==='지원 완료'?'':s==='거절'?'no':'wait'}">${s}${a.team.length?' · 팀 '+(a.team.length+1)+'명':''}</span>`:p.open?'':'<span class="badge no">마감</span>'}</div>
+    ${!a&&p.open?`<div class="acts"><button class="btn" data-act="apply" data-p="${p.id}">혼자 지원</button><select data-bind="mate.${p.id}" style="width:auto" aria-label="함께 지원할 팀원">${mates.map(x=>opt(x.id,x.name+'님과 함께',ui.mate[p.id]||mates[0].id)).join('')}</select><button class="btn dark" data-act="team" data-p="${p.id}">팀으로 지원</button></div>`:''}</div>`}).join('')||'<p class="empty">지금 지원할 수 있는 구인공고가 없습니다.</p>';
+  return h}
+
+function vAdmin(){let h=tabs([['firms','업체 승인'],['reqs','견적 현황'],['stats','유입 경로와 계약'],['log','연락처 열람 기록']]);
+  if(ui.tab==='firms') h+=`<div class="card"><ul class="sub" style="margin-top:-10px">${members.filter(m=>m.firm).map(m=>`<li><span><b>${esc(m.firm.name)}</b> <span class="meta">대표 ${esc(m.name)} · 보유 역할 ${m.roles.map(r=>ROLE[r]).join(', ')}</span></span>${m.firm.ok?'<span class="badge">승인됨</span>':`<button class="btn" data-act="approve" data-m="${m.id}">사업자 확인 후 승인</button>`}</li>`).join('')}</ul></div>
+     <div class="card"><div class="acts" style="margin:0"><b>견적 참여 정원</b><span class="meta">새 견적요청에 적용</span>${[2,3,5].map(n=>`<button class="chip" data-act="limit" data-v="${n}" aria-pressed="${cfg.limit===n}">${n}곳</button>`).join('')}</div></div>`;
+  else if(ui.tab==='reqs') h+=reqs.map(r=>`<div class="card">${reqHead(r)}<span class="badge">${esc(r.src)}</span></div>${seats(r)}${contact(r)}<ul class="sub" style="margin-top:12px">${r.joins.map(j=>`<li><b>${esc(label(M(j.m)))}</b><span><span class="badge">${j.st}</span> <span class="badge ${j.result==='미성사'?'no':j.result==='진행 중'?'wait':''}">계약 ${j.result}</span></span></li>`).join('')||'<li class="empty">참여 업체 없음</li>'}</ul></div>`).join('');
+  else if(ui.tab==='stats'){const by={};reqs.forEach(r=>{const b=by[r.src]=by[r.src]||{n:0,j:0,w:0};b.n++;b.j+=r.joins.length;if(r.joins.some(j=>j.result==='성사'))b.w++});
+    h+=`<div class="card scrollx"><table><tr><th>유입 경로</th><th>견적요청</th><th>업체 참여</th><th>계약 성사</th></tr>${Object.entries(by).map(([k,b])=>`<tr><td>${esc(k)}</td><td>${b.n}건</td><td>${b.j}곳</td><td>${b.w}건</td></tr>`).join('')}</table></div>
+     <div class="card scrollx"><table><tr><th>요청</th><th>고객</th><th>유입</th><th>참여 업체와 결과</th></tr>${reqs.map(r=>`<tr><td>${r.id} ${esc(r.type)}</td><td>${esc(M(r.owner).name)}</td><td>${esc(r.src)}</td><td>${r.joins.map(j=>esc(label(M(j.m)))+' ('+j.result+')').join(', ')||'없음'}</td></tr>`).join('')}</table></div>`}
+  else h+=`<div class="card scrollx">${log.length?`<table><tr><th>시각</th><th>업체</th><th>내용</th><th>요청</th></tr>${log.map(l=>`<tr><td>${l[0]}</td><td>${esc(l[1])}</td><td>${l[2]}</td><td>${l[3]}</td></tr>`).join('')}</table>`:'<p class="empty">아직 기록이 없습니다. 업체로 바꿔 견적에 참여하면 여기에 남습니다.</p>'}</div>`;
+  return h}
+const tabs=list=>{if(!list.some(t=>t[0]===ui.tab))ui.tab=list[0][0];return `<div class="tabs" role="tablist">${list.map(t=>`<button role="tab" data-set="tab" data-v="${t[0]}" aria-selected="${ui.tab===t[0]}">${t[1]}</button>`).join('')}</div>`};
+
+function render(){const m=me();
+  document.getElementById('who').innerHTML=members.map(x=>`<button data-me="${x.id}" aria-pressed="${x.id===ui.me}">${esc(label(x))} <small>${x.roles.map(r=>ROLE[r]).join('·')}</small></button>`).join('');
+  let h=`<div class="me"><div><h2>${esc(label(m))} ${m.firm&&ui.role==='worker'?'<span class="meta">('+esc(m.name)+', 작업자 역할)</span>':''}</h2><div class="meta">${ROLE[ui.role]} 화면</div></div>
+   ${m.roles.length>1?`<div class="seg" role="group" aria-label="역할 전환">${m.roles.map(r=>`<button data-role="${r}" aria-pressed="${ui.role===r}">${ROLE[r]} 역할</button>`).join('')}</div>`:''}</div>`;
+  h+={customer:vCustomer,firm:vFirm,worker:vWorker,admin:vAdmin}[ui.role]();
+  if(ui.say) h+=`<div class="say${ui.err?' err':''}" role="status">${esc(ui.say)}</div>`;
+  document.getElementById('main').innerHTML=h}
+function say(t,err){ui.say=t;ui.err=!!err}
+const R=id=>reqs.find(r=>r.id===+id), Ap=id=>apps.find(a=>a.id===+id);
+const acts={
+  req(){const f=ui.rf;if(!f.date.trim()){say('희망일을 입력해 주세요.',1);return}
+    reqs.unshift({id:seq++,owner:ui.me,type:f.type,area:f.area,date:f.date.trim(),size:f.size,src:f.src,limit:cfg.limit,joins:[]});f.date='';say('견적요청을 올렸습니다. 유입 경로도 함께 기록됐습니다.')},
+  join(d){const e=join(R(d.r),ui.me);say(e||'견적에 참여했습니다. 고객 연락처가 열렸습니다.',e)},
+  leave(d){leave(R(d.r),ui.me);say('참여를 취소했습니다. 연락처는 다시 가려지고 정원 한 자리가 비었습니다.')},
+  st(d){joined(R(d.r),ui.me).st=d.v;say('상담 상태를 '+d.v+'(으)로 바꿨습니다.')},
+  res(d){joined(R(d.r),ui.me).result=d.v;log.unshift([now(),label(me()),'계약 결과 기록: '+d.v,+d.r]);say('계약 결과를 '+d.v+'(으)로 기록했습니다. 관리자 화면에 집계됩니다.')},
+  post(){const p=ui.pf;if(!p.area.trim()||!p.date.trim()){say('모집 지역과 작업일을 입력해 주세요.',1);return}
+    posts.unshift({id:seq++,m:ui.me,area:p.area.trim(),date:p.date.trim(),need:p.need,pay:p.pay.trim()||'협의',open:true});ui.pf={area:'',date:'',need:2,pay:''};say('구인공고를 등록했습니다.')},
+  closep(d){posts.find(x=>x.id===+d.p).open=false;say('모집을 마감했습니다.')},
+  apply(d){apps.push({id:seq++,post:+d.p,lead:ui.me,team:[]});say('혼자 지원했습니다. 업체가 승인하면 확정됩니다.')},
+  team(d){const mate=ui.mate[d.p]||members.find(x=>x.roles.includes('worker')&&x.id!==ui.me).id;apps.push({id:seq++,post:+d.p,lead:ui.me,team:[{m:mate,agreed:false}]});say(M(mate).name+'님에게 팀 지원 초대를 보냈습니다. 동의하면 지원이 완료됩니다.')},
+  agree(d){Ap(d.a).team.find(t=>t.m===ui.me).agreed=true;say('팀 지원에 동의했습니다. 팀 지원이 완료됐습니다.')},
+  decline(d){Ap(d.a).st='팀원 거절';say('초대를 거절했습니다.')},
+  ok(d){Ap(d.a).st='승인';say('지원을 승인했습니다.')},
+  no(d){Ap(d.a).st='거절';say('지원을 거절했습니다.')},
+  approve(d){M(d.m).firm.ok=true;say(M(d.m).firm.name+'을(를) 승인했습니다. 이제 견적에 참여할 수 있습니다.')},
+  limit(d){cfg.limit=+d.v;say('새 견적요청의 참여 정원을 '+d.v+'곳으로 정했습니다.')}};
+function setPath(path,v){const k=path.split('.');let o=ui;while(k.length>1)o=o[k.shift()];o[k[0]]=v}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.me){ui.me=d.me;ui.role=M(d.me).roles[0];ui.tab='';ui.say=''}
+  else if(d.role){ui.role=d.role;ui.tab='';say(ROLE[d.role]+' 역할로 바꿨습니다. 같은 계정입니다.')}
+  else if(d.set){setPath(d.set,d.v);ui.say=''}
+  else if(d.act){ui.say='';acts[d.act](d)}else return;
+  render()});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.bind&&t.tagName==='INPUT')setPath(t.dataset.bind,t.value)});
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset.bind&&t.tagName==='SELECT')setPath(t.dataset.bind,isNaN(t.value)?t.value:+t.value)});
+// self-check: 정원, 승인, 연락처 공개, 팀 동의
+(function(){const r={id:0,owner:'c1',limit:2,joins:[]};
+  console.assert(join(r,'m4')&&!join(r,'m1')&&!join(r,'m2')&&join(r,'m3'),'limit/approval');
+  console.assert(canSee(r,'m1','firm')&&!canSee(r,'m3','firm')&&!canSee(r,'m1','worker')&&canSee(r,'c1','customer'),'contact rule');
+  leave(r,'m1');console.assert(!canSee(r,'m1','firm')&&!join(r,'m3'),'leave frees a seat');
+  const a={team:[{m:'w2',agreed:false}]};console.assert(appState(a)==='팀원 동의 대기');a.team[0].agreed=true;console.assert(appState(a)==='지원 완료');
+  log.length=0})();
+render();
 </script>
 </body>
 </html>

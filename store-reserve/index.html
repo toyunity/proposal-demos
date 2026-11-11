@@ -3,160 +3,301 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>두 매장 예약·가격 관리 시연</title>
+<title>두 매장 예약·포장 주문 시연</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--tile:#F3F5F4;--paper:#fff;--ink:#1E2422;--mute:#5E6965;--line:#D5DBD8;--pine:#1F5A44;--tag:#F6D55C;--ember:#C8421B;--portal:#2F6FB3;--phone:#8A5A00}
+:root{--tile:#F3F5F4;--paper:#fff;--ink:#1E2422;--mute:#5E6965;--line:#D5DBD8;--pine:#1F5A44;--tag:#F6D55C;--ember:#C8421B;--portal:#2F6FB3;--phone:#8A5A00;--wash:#E6EFEA}
 *{box-sizing:border-box}
-body{margin:0;background:var(--tile);color:var(--ink);font:400 16px/1.6 "IBM Plex Sans KR",system-ui,sans-serif}
-.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
-header{padding:28px 0 8px}
-h1{font:400 clamp(30px,6vw,52px)/1.15 "Black Han Sans",sans-serif;margin:0 0 10px;letter-spacing:-.01em}
-h2{font:400 clamp(22px,4vw,30px)/1.25 "Black Han Sans",sans-serif;margin:0 0 6px}
-p.lead{margin:0;color:var(--mute);max-width:36em}
-.note{font-size:13px;color:var(--mute);margin-top:10px}
-.stores{display:inline-flex;margin:20px 0 0;border:2px solid var(--ink);border-radius:999px;overflow:hidden;background:var(--paper)}
-.stores button{border:0;background:none;padding:9px 20px;font:700 15px inherit;font-family:inherit;color:var(--ink);cursor:pointer}
-.stores button[aria-pressed=true]{background:var(--ink);color:#fff}
-section{padding:36px 0;border-top:1px solid var(--line);margin-top:28px}
-.duo{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
-.pane{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.pane>h3{margin:0;padding:11px 16px;font:700 14px inherit;font-family:inherit;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px}
-.pane>h3 span{font-weight:400;color:var(--mute)}
-.owner>h3{background:var(--ink);color:#fff;border:0}.owner>h3 span{color:#B9C4BF}
+body{margin:0;background:var(--tile);color:var(--ink);font:400 15px/1.55 "IBM Plex Sans KR",system-ui,sans-serif}
+button,input,select{font-family:inherit;font-size:15px;color:var(--ink)}
+button{cursor:pointer}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 48px}
+header{padding:26px 0 18px}
+h1{font:400 clamp(28px,5vw,46px)/1.15 "Black Han Sans",sans-serif;margin:0 0 10px}
+h2{font:400 22px/1.25 "Black Han Sans",sans-serif;margin:0 0 10px}
+h3{font-size:15px;margin:18px 0 8px}
+.lead{margin:0;color:var(--mute);max-width:44em}
+.note{font-size:13px;color:var(--mute);margin:8px 0 0}
+.bar{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:999px;overflow:hidden;background:var(--paper)}
+.seg button{border:0;background:none;padding:8px 18px;font-weight:700}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+#side{display:none}
+.stage{display:grid;grid-template-columns:390px 1fr;gap:24px;align-items:start}
+.cap{font-size:13px;font-weight:700;color:var(--mute);margin:0 0 8px}
+.device{border:10px solid var(--ink);border-radius:36px;background:var(--paper);height:760px;overflow:hidden;display:flex;flex-direction:column}
+.device .scroll{overflow-y:auto;flex:1}
+.shop{background:var(--pine);color:#fff;padding:20px 18px 16px}
+.shop b{font:400 28px/1.1 "Black Han Sans",sans-serif;display:block}
+.shop span{font-size:13px;opacity:.85}
+.notice{background:var(--tag);padding:8px 18px;font-size:13px;font-weight:500}
+.tabs{display:flex;border-bottom:2px solid var(--ink);background:var(--paper);position:sticky;top:0;z-index:1}
+.tabs button{flex:1;border:0;background:none;padding:11px 4px;font-weight:700;color:var(--mute);border-bottom:4px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--pine)}
+.tabs i{font-style:normal;background:var(--ember);color:#fff;border-radius:999px;font-size:12px;padding:1px 7px;margin-left:4px}
+.pad{padding:16px 18px 24px}
 ul{list-style:none;margin:0;padding:0}
-.menu li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px dashed var(--line)}
-.menu li:last-child{border:0}
-.menu small{display:block;color:var(--mute);font-size:13px}
-.tag{background:var(--tag);font:400 22px/1 "Black Han Sans",sans-serif;padding:9px 12px 7px;border-radius:3px;transform:rotate(-2deg);box-shadow:2px 2px 0 var(--ink);white-space:nowrap}
+.menu li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px dashed var(--line)}
+.menu small,.muted{color:var(--mute);font-size:13px}
+.menu small{display:block}
+.tag{background:var(--tag);font:400 20px/1 "Black Han Sans",sans-serif;padding:8px 11px 6px;border-radius:3px;transform:rotate(-2deg);box-shadow:2px 2px 0 var(--ink);white-space:nowrap}
+.tag.out{background:#E4E7E5;color:var(--mute);box-shadow:none;transform:none;font-size:15px}
 .tag.changed{animation:pop .7s}
-@keyframes pop{30%{transform:rotate(3deg) scale(1.18);background:#fff}}
+@keyframes pop{30%{transform:rotate(3deg) scale(1.2);background:#fff}}
 @media (prefers-reduced-motion:reduce){.tag.changed{animation:none}}
-.edit li{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
-.step{display:flex;align-items:center;gap:6px}
-.step button{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--ink);background:#fff;font:700 18px inherit;cursor:pointer}
-.step input{width:92px;height:40px;border:1.5px solid var(--ink);border-radius:10px;text-align:right;padding:0 8px;font:700 16px inherit;font-family:inherit}
-.saved{padding:12px 16px;font-size:14px;color:var(--pine);font-weight:500;min-height:46px}
-.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:14px;margin:16px 0 10px}
-.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-.board{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow-x:auto}
-.grid{display:grid;grid-template-columns:96px repeat(10,minmax(54px,1fr));min-width:660px}
-.grid>div{border-bottom:1px solid var(--line);border-right:1px solid var(--line);min-height:52px;padding:6px 8px;font-size:13px}
+label{display:grid;gap:4px;font-size:13px;font-weight:500;margin-top:12px}
+select,input[type=text],input[type=number]{height:44px;border:1.5px solid var(--ink);border-radius:10px;padding:0 10px;background:#fff;width:100%}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1.5px solid var(--ink);background:#fff;border-radius:999px;padding:6px 13px;font-weight:500}
+.chips button[aria-pressed=true]{background:var(--ink);color:#fff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rooms li{margin-top:8px}
+.rooms button{width:100%;text-align:left;border:1.5px solid var(--ink);background:#fff;border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;gap:8px}
+.rooms button[aria-pressed=true]{background:var(--wash);border-color:var(--pine);box-shadow:inset 0 0 0 1.5px var(--pine)}
+.rooms button:disabled{border-color:var(--line);color:var(--mute);background:var(--tile);cursor:not-allowed}
+.go{width:100%;height:48px;border:0;border-radius:10px;background:var(--pine);color:#fff;font-weight:700;margin-top:16px}
+.go.small{width:auto;height:38px;padding:0 14px;margin:0}
+.go.line{background:#fff;color:var(--ember);border:1.5px solid var(--ember)}
+.go:disabled{background:var(--line);color:var(--mute);cursor:not-allowed}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button,.step button{width:36px;height:36px;border-radius:9px;border:1.5px solid var(--ink);background:#fff;font-weight:700}
+.qty b{min-width:20px;text-align:center}
+.sum{display:flex;justify-content:space-between;font-weight:700;font-size:17px;margin-top:14px;padding-top:12px;border-top:2px solid var(--ink)}
+.box{border:1.5px solid var(--ink);border-radius:12px;padding:12px 14px;margin-top:14px;background:#FFF7D1}
+.box.err{background:#FBE9E3;border-color:var(--ember);color:var(--ember);font-weight:500}
+.box.plain{background:#fff;border-color:var(--line)}
+.st{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;background:var(--tag)}
+.st.done{background:var(--pine);color:#fff}
+.admin{background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.admin .head{background:var(--ink);color:#fff;padding:12px 18px;font-weight:700;display:flex;justify-content:space-between}
+.admin .head span{font-weight:400;color:#B9C4BF}
+.board{border:1px solid var(--line);border-radius:12px;overflow-x:auto;margin-top:12px}
+.grid{display:grid;grid-template-columns:118px repeat(10,minmax(50px,1fr));min-width:640px}
+.grid>div{border-bottom:1px solid var(--line);border-right:1px solid var(--line);min-height:54px;padding:5px 7px;font-size:12.5px}
 .grid .h{background:var(--tile);font-weight:700;min-height:0;text-align:center}
-.grid .room{font-weight:700;background:var(--tile)}.grid .room small{display:block;font-weight:400;color:var(--mute)}
-.bk{color:#fff;border-radius:8px;margin:5px 3px;padding:5px 8px;border:0!important;line-height:1.35}
+.grid .room{font-weight:700;background:var(--tile)}
+.grid .room button{display:block;margin-top:3px;border:1px solid var(--ink);background:#fff;border-radius:6px;font-size:12px;padding:1px 7px}
+.grid .closed{background:repeating-linear-gradient(135deg,#ECEFED 0 6px,#fff 6px 12px)}
+.bk{color:#fff;border-radius:8px;margin:5px 3px;border:0!important;line-height:1.3;text-align:left;font-size:12.5px;padding:5px 8px;min-height:0!important}
 .bk.web{background:var(--pine)}.bk.portal{background:var(--portal)}.bk.tel{background:var(--phone)}
-.bk.new{outline:3px solid var(--tag);outline-offset:1px}
-form{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:18px;align-items:end}
-label{font-size:13px;font-weight:500;display:grid;gap:4px}
-select,form input{height:44px;border:1.5px solid var(--ink);border-radius:10px;padding:0 10px;font:16px inherit;font-family:inherit;background:#fff;width:100%}
-.go{height:44px;border:0;border-radius:10px;background:var(--pine);color:#fff;font:700 15px inherit;font-family:inherit;cursor:pointer}
+.bk[aria-pressed=true]{outline:3px solid var(--tag);outline-offset:1px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;margin-top:10px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px}
+.row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:end}
+.row label{margin-top:0}
+.edit li{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.step{display:flex;gap:5px;align-items:center}
+.step input{width:92px;height:36px;text-align:right;font-weight:700}
+.pill{border:1.5px solid var(--ink);background:#fff;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500}
+.pill[aria-pressed=true]{background:var(--ember);border-color:var(--ember);color:#fff}
+.order{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.talk{background:var(--tile);border-radius:4px 14px 14px 14px;padding:10px 12px;margin-top:10px;white-space:pre-line;font-size:14px;max-width:360px}
+.talk b{display:block;font-size:12px;color:var(--pine)}
+.empty{color:var(--mute);padding:18px 0}
 :focus-visible{outline:3px solid var(--portal);outline-offset:2px}
-.msg{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:15px;display:none}
-.msg.err{display:block;background:#FBE9E3;color:var(--ember);border:1.5px solid var(--ember);font-weight:500}
-.msg.ok{display:block;background:#FFF7D1;border:1.5px solid var(--ink)}
-.talk{margin-top:8px;background:#fff;border-radius:4px 14px 14px 14px;padding:10px 12px;font-size:14px;max-width:320px;white-space:pre-line;border:1px solid var(--line)}
-footer{padding:28px 0 48px;color:var(--mute);font-size:13px}
-@media (max-width:760px){.duo{grid-template-columns:1fr}form{grid-template-columns:1fr 1fr}.go{grid-column:1/-1}}
+@media (max-width:940px){
+ #side{display:inline-flex}
+ .stage{grid-template-columns:1fr}
+ .stage[data-side=cust] .colA,.stage[data-side=admin] .colC{display:none}
+ .device{border:1px solid var(--line);border-radius:16px;height:auto}
+ .device .scroll{overflow:visible}
+ .row{grid-template-columns:1fr 1fr}
+ .cap{display:none}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
   <h1>시세가 바뀐 날,<br>휴대폰으로 10초면 끝납니다</h1>
-  <p class="lead">제안드리는 홈페이지의 핵심 두 장면을 직접 눌러 보실 수 있게 만들었습니다. 가격을 고치면 손님 화면이 바로 바뀌고, 흩어진 예약은 룸별 달력 하나에 모입니다.</p>
-  <p class="note">시연용 화면입니다. 매장 이름, 메뉴, 예약은 모두 예시이며 입력한 내용은 저장되지 않습니다.</p>
-  <div class="stores" role="group" aria-label="매장 선택">
-    <button data-s="0" aria-pressed="true">본점</button><button data-s="1" aria-pressed="false">2호점</button>
+  <p class="lead">제안드리는 홈페이지를 미리 눌러 보실 수 있게 만들었습니다. 왼쪽은 손님이 보는 홈페이지, 오른쪽은 직원이 쓰는 관리 화면입니다. 한쪽에서 예약하거나 가격을 바꾸면 다른 쪽에 바로 나타납니다.</p>
+  <p class="note">시연용 화면입니다. 매장 이름, 메뉴, 예약은 모두 예시이며 새로 고치면 처음 상태로 돌아갑니다. 알림톡은 실제로 발송되지 않습니다.</p>
+  <div class="bar">
+    <div class="seg" id="store" role="group" aria-label="매장 선택"></div>
+    <div class="seg" id="side" role="group" aria-label="화면 선택"></div>
   </div>
 </header>
-
-<section>
-  <h2>가격 수정</h2>
-  <p class="lead">오른쪽이 직원 휴대폰, 왼쪽이 손님이 보는 홈페이지입니다. 오른쪽에서 가격을 바꿔 보세요.</p>
-  <div class="duo">
-    <div class="pane"><h3>손님이 보는 메뉴 <span id="sname"></span></h3><ul class="menu" id="menu"></ul></div>
-    <div class="pane owner"><h3>직원 관리 화면 <span>오늘 시세 반영</span></h3><ul class="edit" id="edit"></ul><div class="saved" id="saved" aria-live="polite"></div></div>
-  </div>
-</section>
-
-<section>
-  <h2>예약 달력</h2>
-  <p class="lead">홈페이지, 포털, 전화로 들어온 단체 예약이 룸별로 한 화면에 보입니다. 전화로 받은 예약을 아래에서 등록해 보세요. 시간이 겹치거나 인원이 룸 정원을 넘으면 등록되지 않습니다.</p>
-  <div class="legend"><span><i style="background:var(--pine)"></i>홈페이지 예약</span><span><i style="background:var(--portal)"></i>포털 예약</span><span><i style="background:var(--phone)"></i>전화 예약</span></div>
-  <div class="board"><div class="grid" id="grid"></div></div>
-  <form id="f">
-    <label>접수 경로<select name="src"><option value="tel">전화</option><option value="portal">포털</option></select></label>
-    <label>룸<select name="room" id="roomSel"></select></label>
-    <label>시작<select name="start" id="startSel"></select></label>
-    <label>이용 시간<select name="len"><option value="2">2시간</option><option value="3">3시간</option></select></label>
-    <label>인원<input name="n" type="number" min="2" max="60" value="10" required></label>
-    <label>예약자<input name="who" value="박○○" required maxlength="8"></label>
-    <button class="go">예약 등록</button>
-  </form>
-  <div class="msg" id="msg" role="status"></div>
-</section>
-
-<footer>포장 주문, 알림톡 실제 발송, 예약 마감 설정은 본 개발 범위에 포함되며 이 시연에는 넣지 않았습니다.</footer>
+<div class="stage" id="stage" data-side="cust">
+  <div class="colC"><p class="cap">손님이 보는 홈페이지</p><div class="device"><div class="scroll" id="cust"></div></div></div>
+  <div class="colA"><p class="cap">직원 관리 화면 (휴대폰에서도 같은 화면)</p><div class="admin" id="admin"></div></div>
+</div>
 </div>
 <script>
-const won=n=>n.toLocaleString('ko-KR')+'원', HOURS=[11,12,13,14,15,16,17,18,19,20];
+const won=n=>n.toLocaleString('ko-KR')+'원', HOURS=[11,12,13,14,15,16,17,18,19,20], SRC={web:'홈페이지',portal:'포털',tel:'전화'};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const DAYS=[0,1,2].map(i=>{const d=new Date();d.setDate(d.getDate()+i);return{i,label:['오늘','내일','모레'][i]+' '+(d.getMonth()+1)+'/'+d.getDate()}});
+let seq=1;
 const stores=[
- {name:'본점',menu:[['한우 등심','150g',38000],['한우 갈비살','150g',35000],['삼겹살','180g',17000],['포장 불고기','500g',29000]],
-  rooms:[['1번 룸',8],['2번 룸',12],['단체석',30]],
-  bk:[{r:0,s:12,l:2,n:6,who:'김○○',src:'web'},{r:1,s:18,l:2,n:10,who:'이○○',src:'portal'},{r:2,s:18,l:3,n:24,who:'○○산악회',src:'tel'}]},
- {name:'2호점',menu:[['한우 등심','150g',38000],['한우 안창살','150g',42000],['돼지갈비','250g',18000],['포장 불고기','500g',29000]],
-  rooms:[['안쪽 룸',10],['창가 룸',14],['단체석',40]],
-  bk:[{r:0,s:18,l:2,n:8,who:'최○○',src:'portal'},{r:2,s:12,l:2,n:32,who:'○○동창회',src:'web'}]}];
-let cur=0;const $=id=>document.getElementById(id), S=()=>stores[cur];
-function menu(changed){
-  $('sname').textContent=S().name;
-  $('menu').innerHTML=S().menu.map((m,i)=>`<li><div><b>${m[0]}</b><small>${m[1]}</small></div><span class="tag${i===changed?' changed':''}">${won(m[2])}</span></li>`).join('');
+ {name:'본점',addr:'서울 금천구 예시로 12',park:'건물 뒤 전용 주차장 20대, 2시간 무료',notice:'12월 단체 예약을 받고 있습니다',
+  menu:[{n:'한우 등심',u:'150g',p:38000},{n:'한우 갈비살',u:'150g',p:35000},{n:'삼겹살',u:'180g',p:17000},{n:'포장 불고기',u:'500g',p:29000},{n:'포장 육회',u:'200g',p:25000}],
+  rooms:[{n:'1번 룸',cap:8,closed:{}},{n:'2번 룸',cap:12,closed:{}},{n:'단체석',cap:30,closed:{}}],
+  bk:[{d:0,r:0,s:12,l:2,n:6,who:'김○○',src:'web'},{d:0,r:1,s:18,l:2,n:10,who:'이○○',src:'portal'},{d:0,r:2,s:18,l:3,n:24,who:'○○산악회',src:'tel'},{d:1,r:1,s:12,l:2,n:9,who:'정○○',src:'web'},{d:1,r:2,s:18,l:3,n:28,who:'○○동호회',src:'portal'}],
+  orders:[{who:'한○○',items:[['포장 불고기',1,29000]],pick:'18:30',st:'접수'}]},
+ {name:'2호점',addr:'서울 금천구 예시대로 345',park:'지하 주차장 30대, 3시간 무료',notice:'매주 월요일은 쉽니다',
+  menu:[{n:'한우 등심',u:'150g',p:38000},{n:'한우 안창살',u:'150g',p:42000},{n:'돼지갈비',u:'250g',p:18000},{n:'포장 불고기',u:'500g',p:29000}],
+  rooms:[{n:'안쪽 룸',cap:10,closed:{}},{n:'창가 룸',cap:14,closed:{}},{n:'단체석',cap:40,closed:{}}],
+  bk:[{d:0,r:0,s:18,l:2,n:8,who:'최○○',src:'portal'},{d:0,r:2,s:12,l:2,n:32,who:'○○동창회',src:'web'}],orders:[]}];
+stores.forEach(s=>{s.talks=[];s.bk.forEach(b=>b.id=seq++);s.orders.forEach(o=>o.id=seq++)});
+const ui={s:0,side:'cust',ct:'menu',at:'cal',day:0,changed:-1,sel:null,
+  bf:{d:0,n:8,s:18,l:2,r:null,who:''},pf:{q:{},pick:'18:00',who:''},mf:{src:'tel',r:0,s:18,l:2,n:10,who:''},nf:{n:'',u:'',p:''},
+  cmsg:'',amsg:'',myOrder:null,myBk:null};
+const S=()=>stores[ui.s], $=id=>document.getElementById(id);
+// 겹침 판정: 같은 날 같은 룸에서 [시작, 시작+길이) 구간이 겹치면 true. except는 변경 중인 예약 자신
+function clash(st,b,except){return st.bk.find(o=>o!==except&&o.d===b.d&&o.r===b.r&&b.s<o.s+o.l&&o.s<b.s+b.l)}
+// 예약 가능 여부를 한 곳에서 판정 (손님 예약, 전화·포털 수기 등록, 예약 변경이 모두 이 함수를 거친다)
+function check(st,b,except){
+  const room=st.rooms[b.r];
+  if(b.s+b.l>21) return '영업이 21시에 끝나 이 시간에는 '+b.l+'시간을 쓸 수 없습니다.';
+  if(room.closed[b.d]) return room.n+'은 이 날짜에 예약을 마감했습니다.';
+  if(b.n>room.cap) return room.n+'의 정원은 '+room.cap+'명입니다. 더 큰 자리를 골라 주세요.';
+  const c=clash(st,b,except);
+  if(c) return room.n+'은 '+c.s+':00~'+(c.s+c.l)+':00에 이미 예약이 있습니다 ('+SRC[c.src]+' 예약, '+c.who+' '+c.n+'명).';
+  return '';
 }
-function edit(){
-  $('edit').innerHTML=S().menu.map((m,i)=>`<li><b>${m[0]}</b><div class="step"><button data-i="${i}" data-d="-1000" aria-label="${m[0]} 1,000원 내리기">−</button><input data-i="${i}" type="number" step="500" min="0" value="${m[2]}" aria-label="${m[0]} 가격"><button data-i="${i}" data-d="1000" aria-label="${m[0]} 1,000원 올리기">+</button></div></li>`).join('');
+function talk(kind,msg){S().talks.unshift({kind,msg,t:new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})})}
+const bkText=(b)=>DAYS[b.d].label+' '+b.s+':00~'+(b.s+b.l)+':00, '+S().rooms[b.r].n+', '+b.n+'명';
+const opt=(v,t,cur)=>`<option value="${v}"${String(v)===String(cur)?' selected':''}>${t}</option>`;
+const dayChips=(bind,cur)=>`<div class="chips" role="group" aria-label="날짜">${DAYS.map(d=>`<button data-set="${bind}" data-v="${d.i}" aria-pressed="${d.i===cur}">${d.label}</button>`).join('')}</div>`;
+
+function renderCust(){
+  const st=S(),f=ui.bf,tabs=[['menu','메뉴'],['book','단체 예약'],['pack','포장 주문'],['way','오시는 길']];
+  let h=`<div class="shop"><b>돌판집 ${st.name}</b><span>${st.addr}</span></div><div class="notice">${st.notice}</div>
+  <div class="tabs" role="tablist">${tabs.map(t=>`<button role="tab" data-set="ct" data-v="${t[0]}" aria-selected="${ui.ct===t[0]}">${t[1]}</button>`).join('')}</div><div class="pad">`;
+  if(ui.ct==='menu'){
+    h+=`<ul class="menu">${st.menu.map((m,i)=>`<li><div><b>${esc(m.n)}</b><small>${esc(m.u)}</small></div>${m.sold?'<span class="tag out">오늘 품절</span>':`<span class="tag${i===ui.changed?' changed':''}">${won(m.p)}</span>`}</li>`).join('')}</ul><p class="muted">가격은 시세에 따라 바뀔 수 있습니다.</p>`;
+  }else if(ui.ct==='book'){
+    h+=`<h2>단체 예약</h2><label>날짜</label>${dayChips('bf.d',f.d)}
+    <div class="two"><label>인원<select data-bind="bf.n">${[4,6,8,10,12,15,20,25,30,40].map(n=>opt(n,n+'명',f.n)).join('')}</select></label>
+    <label>시작 시간<select data-bind="bf.s">${HOURS.map(x=>opt(x,x+':00',f.s)).join('')}</select></label></div>
+    <label>이용 시간<select data-bind="bf.l">${opt(2,'2시간',f.l)}${opt(3,'3시간',f.l)}</select></label>
+    <label>자리 선택</label><ul class="rooms">${st.rooms.map((r,i)=>{const why=check(st,{d:f.d,r:i,s:f.s,l:f.l,n:f.n});
+      const short=!why?'예약 가능':r.closed[f.d]?'예약 마감':f.n>r.cap?'정원 '+r.cap+'명 초과':f.s+f.l>21?'시간 초과':'예약 있음';
+      return `<li><button data-set="bf.r" data-v="${i}" aria-pressed="${f.r===i&&!why}" ${why?'disabled':''}><span><b>${r.n}</b> 최대 ${r.cap}명</span><span>${short}</span></button></li>`}).join('')}</ul>
+    <label>예약자 이름<input type="text" data-bind="bf.who" value="${esc(f.who)}" maxlength="10" placeholder="예: 홍길동"></label>
+    <button class="go" data-act="book">예약 신청</button>`;
+    if(ui.myBk) h+=`<div class="box"><b>예약이 확정되었습니다</b><br>${bkText(ui.myBk)}<br><span class="muted">확정 알림톡을 보내 드렸습니다. 오른쪽 관리 화면 달력에도 나타납니다.</span></div>`;
+  }else if(ui.ct==='pack'){
+    const q=ui.pf.q;let total=0;
+    h+=`<h2>포장 주문</h2><ul class="menu">${st.menu.map((m,i)=>{const c=q[i]||0;total+=c*m.p;return `<li><div><b>${esc(m.n)}</b><small>${esc(m.u)} · ${won(m.p)}</small></div>${m.sold?'<span class="tag out">오늘 품절</span>':`<div class="qty"><button data-act="qty" data-i="${i}" data-d="-1" aria-label="${esc(m.n)} 줄이기">−</button><b>${c}</b><button data-act="qty" data-i="${i}" data-d="1" aria-label="${esc(m.n)} 늘리기">+</button></div>`}</li>`}).join('')}</ul>
+    <div class="two"><label>픽업 시간<select data-bind="pf.pick">${['17:00','17:30','18:00','18:30','19:00','19:30','20:00'].map(t=>opt(t,t,ui.pf.pick)).join('')}</select></label>
+    <label>주문자 이름<input type="text" data-bind="pf.who" value="${esc(ui.pf.who)}" maxlength="10" placeholder="예: 홍길동"></label></div>
+    <div class="sum"><span>합계</span><span>${won(total)}</span></div><p class="muted">결제는 매장에서 받으실 때 하시면 됩니다.</p>
+    <button class="go" data-act="order">포장 주문하기</button>`;
+    const o=ui.myOrder;if(o) h+=`<div class="box"><span class="st ${o.st==='준비 완료'?'done':''}">${o.st}</span> <b>${o.pick} 픽업</b><br>${o.items.map(x=>esc(x[0])+' '+x[1]+'개').join(', ')}<br><span class="muted">${o.st==='준비 완료'?'포장이 준비됐습니다. 매장에서 결제 후 가져가세요.':'매장에서 준비를 마치면 알림톡을 보내 드립니다.'}</span></div>`;
+  }else{
+    h+=`<h2>오시는 길</h2><p><b>주소</b><br>${st.addr}</p><p><b>주차</b><br>${st.park}</p><p><b>영업 시간</b><br>매일 11:00 ~ 21:00</p><p class="muted">지도, 매장 사진, 공지사항은 실제 구축 시 이 자리에 들어갑니다.</p>`;
+  }
+  if(ui.cmsg) h+=`<div class="box err" role="alert">${esc(ui.cmsg)}</div>`;
+  $('cust').innerHTML=h+'</div>';ui.changed=-1;
 }
-function setPrice(i,v){
-  v=Math.max(0,Math.round(v/100)*100); if(!isFinite(v))return;
-  const m=S().menu[i]; if(m[2]===v)return; m[2]=v; menu(i);
-  $('edit').querySelector(`input[data-i="${i}"]`).value=v;
-  $('saved').textContent=`${m[0]} 가격을 ${won(v)}으로 바꿨습니다. 손님 화면에 반영됐습니다.`;
+
+function renderAdmin(){
+  const st=S(),open=st.orders.filter(o=>o.st==='접수').length,tabs=[['cal','예약 달력'],['orders','포장 주문'+(open?`<i>${open}</i>`:'')],['menu','메뉴·가격'],['talk','알림톡 내역']];
+  let h=`<div class="head">돌판집 ${st.name} 관리 <span>직원용</span></div><div class="tabs" role="tablist">${tabs.map(t=>`<button role="tab" data-set="at" data-v="${t[0]}" aria-selected="${ui.at===t[0]}">${t[1]}</button>`).join('')}</div><div class="pad">`;
+  if(ui.at==='cal'){
+    const d=ui.day,list=st.bk.filter(b=>b.d===d);
+    h+=dayChips('day',d)+`<div class="legend"><span><i style="background:var(--pine)"></i>홈페이지</span><span><i style="background:var(--portal)"></i>포털</span><span><i style="background:var(--phone)"></i>전화</span><span class="muted">예약을 누르면 변경·취소할 수 있습니다</span></div>
+    <div class="board"><div class="grid"><div class="h">자리</div>${HOURS.map(x=>`<div class="h">${x}시</div>`).join('')}`;
+    st.rooms.forEach((r,ri)=>{const cl=r.closed[d];
+      h+=`<div class="room" style="grid-row:${ri+2};grid-column:1">${r.n} <span class="muted">${r.cap}명</span><button data-act="close" data-r="${ri}" aria-pressed="${!!cl}">${cl?'마감 풀기':'예약 마감'}</button></div>`;
+      HOURS.forEach((x,ci)=>h+=`<div class="${cl?'closed':''}" style="grid-row:${ri+2};grid-column:${ci+2}"></div>`)});
+    list.forEach(b=>h+=`<button class="bk ${b.src}" data-act="pick" data-id="${b.id}" aria-pressed="${ui.sel===b.id}" style="grid-row:${b.r+2};grid-column:${b.s-9}/span ${b.l}"><b>${esc(b.who)}</b> ${b.n}명<br>${SRC[b.src]}</button>`);
+    h+='</div></div>';
+    const sb=st.bk.find(b=>b.id===ui.sel);
+    if(sb&&sb.d===d) h+=`<div class="box plain"><b>${esc(sb.who)}</b> · ${bkText(sb)} · ${SRC[sb.src]} 예약
+      <div class="row" style="margin-top:10px"><label>시작 시간 변경<select data-bind="selS">${HOURS.map(x=>opt(x,x+':00',ui.selS??sb.s)).join('')}</select></label>
+      <button class="go small" data-act="move">시간 변경</button><button class="go small line" data-act="cancel">예약 취소</button></div></div>`;
+    const m=ui.mf;
+    h+=`<h3>전화·포털 예약 등록</h3><div class="row">
+      <label>접수 경로<select data-bind="mf.src">${opt('tel','전화',m.src)}${opt('portal','포털',m.src)}</select></label>
+      <label>자리<select data-bind="mf.r">${st.rooms.map((r,i)=>opt(i,r.n,m.r)).join('')}</select></label>
+      <label>시작<select data-bind="mf.s">${HOURS.map(x=>opt(x,x+':00',m.s)).join('')}</select></label>
+      <label>이용<select data-bind="mf.l">${opt(2,'2시간',m.l)}${opt(3,'3시간',m.l)}</select></label>
+      <label>인원<select data-bind="mf.n">${[4,6,8,10,12,15,20,25,30,40].map(n=>opt(n,n+'명',m.n)).join('')}</select></label>
+      <label>예약자<input type="text" data-bind="mf.who" value="${esc(m.who)}" maxlength="10" placeholder="이름"></label></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="go small" data-act="manual">${DAYS[d].label}에 등록</button>
+      <button class="go small" style="background:var(--ink)" data-act="remind">내일 예약 손님에게 전날 안내 보내기</button></div>`;
+  }else if(ui.at==='orders'){
+    h+=st.orders.length?st.orders.map(o=>`<div class="order"><div><span class="st ${o.st==='준비 완료'?'done':''}">${o.st}</span> <b>${esc(o.who)}</b> · ${o.pick} 픽업<br>${o.items.map(x=>esc(x[0])+' '+x[1]+'개').join(', ')}<br><b>${won(o.items.reduce((a,x)=>a+x[1]*x[2],0))}</b> <span class="muted">매장 결제 · 주문 당시 가격</span></div>
+      ${o.st==='접수'?`<button class="go small" data-act="ready" data-id="${o.id}">준비 완료 알림 보내기</button>`:''}</div>`).join(''):'<p class="empty">들어온 포장 주문이 없습니다. 왼쪽 손님 화면에서 포장 주문을 넣어 보세요.</p>';
+  }else if(ui.at==='menu'){
+    h+=`<p class="muted" style="margin:0">가격을 바꾸면 손님 화면에 바로 반영됩니다. 이미 받은 포장 주문은 주문 당시 가격을 유지합니다.</p><ul class="edit">${st.menu.map((m,i)=>`<li><div><b>${esc(m.n)}</b> <span class="muted">${esc(m.u)}</span></div>
+      <div class="step"><button data-act="price" data-i="${i}" data-d="-1000" aria-label="${esc(m.n)} 1,000원 내리기">−</button><input type="number" step="500" min="0" data-price="${i}" value="${m.p}" aria-label="${esc(m.n)} 가격"><button data-act="price" data-i="${i}" data-d="1000" aria-label="${esc(m.n)} 1,000원 올리기">+</button></div>
+      <div style="display:flex;gap:6px"><button class="pill" data-act="sold" data-i="${i}" aria-pressed="${!!m.sold}">${m.sold?'품절 해제':'품절'}</button><button class="pill" data-act="del" data-i="${i}">삭제</button></div></li>`).join('')}</ul>
+      <h3>메뉴 추가</h3><div class="row"><label style="grid-column:span 2">이름<input type="text" data-bind="nf.n" value="${esc(ui.nf.n)}" maxlength="14"></label><label>단위<input type="text" data-bind="nf.u" value="${esc(ui.nf.u)}" maxlength="8" placeholder="150g"></label>
+      <label style="grid-column:span 2">가격<input type="number" data-bind="nf.p" value="${esc(ui.nf.p)}" step="500" min="0"></label><button class="go small" data-act="add">추가</button></div>`;
+  }else{
+    h+=st.talks.length?st.talks.map(t=>`<div class="talk"><b>${t.kind} · ${t.t} 발송</b>${esc(t.msg)}</div>`).join(''):'<p class="empty">보낸 알림톡이 없습니다. 예약을 받거나 포장 주문을 준비 완료로 바꾸면 여기에 쌓입니다.</p>';
+  }
+  if(ui.amsg) h+=`<div class="box${ui.aerr?' err':''}" role="status">${esc(ui.amsg)}</div>`;
+  $('admin').innerHTML=h+'</div>';
 }
-$('edit').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setPrice(+b.dataset.i,S().menu[b.dataset.i][2]+ +b.dataset.d)});
-$('edit').addEventListener('change',e=>{if(e.target.matches('input'))setPrice(+e.target.dataset.i,+e.target.value)});
-const SRC={web:'홈페이지',portal:'포털',tel:'전화'};
-function grid(fresh){
-  let h='<div class="h">룸</div>'+HOURS.map(x=>`<div class="h">${x}시</div>`).join('');
-  S().rooms.forEach((r,ri)=>{
-    h+=`<div class="room" style="grid-row:${ri+2};grid-column:1">${r[0]}<small>정원 ${r[1]}명</small></div>`;
-    HOURS.forEach((x,ci)=>h+=`<div style="grid-row:${ri+2};grid-column:${ci+2}"></div>`);
-  });
-  S().bk.forEach(b=>h+=`<div class="bk ${b.src}${b===fresh?' new':''}" style="grid-row:${b.r+2};grid-column:${b.s-9}/span ${b.l}"><b>${b.who}</b> ${b.n}명<br>${SRC[b.src]}</div>`);
-  $('grid').innerHTML=h;
-  $('roomSel').innerHTML=S().rooms.map((r,i)=>`<option value="${i}">${r[0]} (${r[1]}명)</option>`).join('');
+function chrome(){
+  $('store').innerHTML=stores.map((s,i)=>`<button data-set="s" data-v="${i}" aria-pressed="${ui.s===i}">${s.name}</button>`).join('');
+  $('side').innerHTML=[['cust','손님 화면'],['admin','직원 화면']].map(x=>`<button data-set="side" data-v="${x[0]}" aria-pressed="${ui.side===x[0]}">${x[1]}</button>`).join('');
+  $('stage').dataset.side=ui.side;
 }
-$('startSel').innerHTML=HOURS.slice(0,9).map(x=>`<option value="${x}"${x===18?' selected':''}>${x}:00</option>`).join('');
-// 겹침 판정: 같은 룸에서 [시작, 시작+길이) 구간이 하나라도 겹치면 등록 불가
-function clash(b){return S().bk.find(o=>o.r===b.r&&b.s<o.s+o.l&&o.s<b.s+b.l)}
-$('f').addEventListener('submit',e=>{
-  e.preventDefault();const d=new FormData(e.target),m=$('msg');
-  const b={r:+d.get('room'),s:+d.get('start'),l:+d.get('len'),n:+d.get('n'),who:String(d.get('who')).replace(/[<>&]/g,''),src:d.get('src')};
-  if(b.s+b.l>21){b.l=21-b.s}
-  const room=S().rooms[b.r],c=clash(b);
-  if(c){m.className='msg err';m.textContent=`등록되지 않았습니다. ${room[0]}은 ${c.s}:00~${c.s+c.l}:00에 이미 예약이 있습니다 (${SRC[c.src]} 예약, ${c.who} ${c.n}명). 다른 룸이나 시간을 골라 주세요.`;return}
-  if(b.n>room[1]){m.className='msg err';m.textContent=`등록되지 않았습니다. ${room[0]}의 정원은 ${room[1]}명인데 ${b.n}명을 입력했습니다. 더 큰 룸을 골라 주세요.`;return}
-  S().bk.push(b);grid(b);
-  m.className='msg ok';m.innerHTML=`예약을 등록했습니다. 손님에게는 아래 알림톡이 나갑니다.<div class="talk">[${S().name}] 예약이 확정되었습니다.
-${b.who}님 · ${room[0]} · ${b.n}명
-오늘 ${b.s}:00 ~ ${b.s+b.l}:00
-변경·취소는 전날까지 가능합니다.</div>`;
-});
-document.querySelector('.stores').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cur=+b.dataset.s;
-  document.querySelectorAll('.stores button').forEach(x=>x.setAttribute('aria-pressed',x===b));$('msg').className='msg';$('saved').textContent='';menu();edit();grid()});
-menu();edit();grid();
-// self-check: 겹침 판정
-console.assert(clash({r:1,s:19,l:2})&&!clash({r:1,s:20,l:1})&&!clash({r:0,s:18,l:2}),'clash check failed');
+function render(){chrome();renderCust();renderAdmin()}
+function setPath(path,v){const k=path.split('.');let o=ui;while(k.length>1)o=o[k.shift()];o[k[0]]=v}
+const num=v=>v!==''&&!isNaN(v)?+v:v;
+function A(msg,err){ui.amsg=msg;ui.aerr=!!err}
+
+const acts={
+  book(){const st=S(),f=ui.bf;ui.myBk=null;
+    if(f.r===null){ui.cmsg='자리를 골라 주세요.';return}
+    if(!f.who.trim()){ui.cmsg='예약자 이름을 입력해 주세요.';return}
+    const b={d:f.d,r:f.r,s:f.s,l:f.l,n:f.n,who:f.who.trim(),src:'web',id:seq++},why=check(st,b);
+    if(why){ui.cmsg=why;return}
+    st.bk.push(b);ui.myBk=b;ui.day=b.d;ui.bf.r=null;
+    talk('예약 확정',`[돌판집 ${st.name}] 예약이 확정되었습니다.\n${b.who}님, ${bkText(b)}\n변경·취소는 전날까지 가능합니다.`)},
+  manual(){const st=S(),m=ui.mf;if(!m.who.trim()){A('예약자 이름을 입력해 주세요.',1);return}
+    const b={d:ui.day,r:m.r,s:m.s,l:m.l,n:m.n,who:m.who.trim(),src:m.src,id:seq++},why=check(st,b);
+    if(why){A('등록되지 않았습니다. '+why,1);return}
+    st.bk.push(b);ui.sel=b.id;ui.selS=null;A(`${SRC[b.src]} 예약을 등록했습니다. 손님에게 확정 알림톡을 보냈습니다.`);
+    talk('예약 확정',`[돌판집 ${st.name}] 예약이 확정되었습니다.\n${b.who}님, ${bkText(b)}`)},
+  pick(d){ui.sel=ui.sel===+d.id?null:+d.id;ui.selS=null},
+  move(){const st=S(),b=st.bk.find(x=>x.id===ui.sel),s=ui.selS??b.s,why=check(st,{...b,s},b);
+    if(why){A('변경되지 않았습니다. '+why,1);return}
+    b.s=s;A('예약 시간을 바꿨습니다. 손님에게 변경 알림톡을 보냈습니다.');
+    talk('예약 변경',`[돌판집 ${st.name}] 예약이 변경되었습니다.\n${b.who}님, ${bkText(b)}`)},
+  cancel(){const st=S(),i=st.bk.findIndex(x=>x.id===ui.sel),b=st.bk[i];st.bk.splice(i,1);ui.sel=null;if(ui.myBk===b)ui.myBk=null;
+    A('예약을 취소했습니다. 그 시간은 다시 예약할 수 있습니다.');talk('예약 취소',`[돌판집 ${st.name}] 예약이 취소되었습니다.\n${b.who}님, ${bkText(b)}`)},
+  close(d){const r=S().rooms[+d.r];r.closed[ui.day]=!r.closed[ui.day];A(r.closed[ui.day]?`${r.n}의 ${DAYS[ui.day].label} 예약을 마감했습니다. 손님 화면에서 고를 수 없습니다.`:`${r.n}의 마감을 풀었습니다.`)},
+  remind(){const st=S(),list=st.bk.filter(b=>b.d===1);if(!list.length){A('내일 예약이 없습니다.',1);return}
+    list.forEach(b=>talk('전날 안내',`[돌판집 ${st.name}] 내일 예약 안내드립니다.\n${b.who}님, ${bkText(b)}\n주차: ${st.park}`));
+    A(`내일 예약 ${list.length}건에 전날 안내를 보냈습니다. 실제 서비스에서는 매일 정해진 시각에 자동으로 나갑니다.`)},
+  qty(d){const q=ui.pf.q;q[d.i]=Math.max(0,(q[d.i]||0)+ +d.d)},
+  order(){const st=S(),p=ui.pf,items=st.menu.map((m,i)=>[m.n,p.q[i]||0,m.p,m.sold]).filter(x=>x[1]>0&&!x[3]).map(x=>x.slice(0,3));
+    if(!items.length){ui.cmsg='메뉴를 하나 이상 담아 주세요.';return}
+    if(!p.who.trim()){ui.cmsg='주문자 이름을 입력해 주세요.';return}
+    const o={id:seq++,who:p.who.trim(),items,pick:p.pick,st:'접수'};st.orders.unshift(o);ui.myOrder=o;p.q={}},
+  ready(d){const st=S(),o=st.orders.find(x=>x.id===+d.id);o.st='준비 완료';A(`${o.who}님에게 포장 준비 완료 알림톡을 보냈습니다.`);
+    talk('포장 준비 완료',`[돌판집 ${st.name}] 포장이 준비되었습니다.\n${o.who}님, ${o.pick}에 매장에서 결제 후 가져가세요.`)},
+  price(d){setPrice(+d.i,S().menu[+d.i].p+ +d.d)},
+  sold(d){const m=S().menu[+d.i];m.sold=!m.sold;A(m.sold?`${m.n}을(를) 품절로 바꿨습니다. 손님 화면에서 주문할 수 없습니다.`:`${m.n}의 품절을 풀었습니다.`)},
+  del(d){const m=S().menu.splice(+d.i,1)[0];ui.pf.q={};A(`${m.n}을(를) 메뉴에서 지웠습니다.`)},
+  add(){const f=ui.nf,p=Math.round(+f.p/100)*100;if(!String(f.n).trim()||!(p>0)){A('메뉴 이름과 가격을 입력해 주세요.',1);return}
+    S().menu.push({n:String(f.n).trim(),u:String(f.u).trim()||'1인분',p});ui.nf={n:'',u:'',p:''};A('메뉴를 추가했습니다. 손님 화면에 바로 보입니다.')}
+};
+function setPrice(i,v){v=Math.max(0,Math.round(v/100)*100);const m=S().menu[i];if(!isFinite(v)||m.p===v)return;m.p=v;ui.changed=i;ui.ct=ui.ct==='pack'?'pack':'menu';
+  A(`${m.n} 가격을 ${won(v)}으로 바꿨습니다. 손님 화면에 반영됐습니다.`)}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.set){setPath(d.set,num(d.v));if(d.set==='s'){ui.sel=null;ui.myBk=null;ui.myOrder=null;ui.pf.q={};ui.bf.r=null;ui.mf.r=0}if(d.set==='day')ui.sel=null;ui.cmsg='';ui.amsg=''}
+  else if(d.act){ui.cmsg='';ui.amsg='';acts[d.act](d)}else return;
+  render()});
+// 이름 같은 글자 입력은 값만 기억하고 화면을 다시 그리지 않는다 (입력 도중 버튼 클릭이 사라지지 않게)
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.bind&&t.tagName==='INPUT')setPath(t.dataset.bind,t.value)});
+document.addEventListener('change',e=>{const t=e.target;
+  if(t.dataset.price){ui.amsg='';setPrice(+t.dataset.price,+t.value);chrome();renderCust()}
+  else if(t.dataset.bind&&t.tagName==='SELECT'){setPath(t.dataset.bind,num(t.value));if(t.dataset.bind.startsWith('bf.')){ui.bf.r=null;ui.cmsg=''}render()}});
+render();
+// self-check: 겹침, 정원, 마감, 영업 시간
+(function(){const st=stores[0],ok=b=>!check(st,b);
+  console.assert(!ok({d:0,r:1,s:19,l:2,n:4})&&ok({d:0,r:1,s:20,l:1,n:4})&&ok({d:0,r:0,s:18,l:2,n:8}),'clash');
+  console.assert(!ok({d:0,r:0,s:14,l:2,n:9})&&!ok({d:0,r:0,s:20,l:2,n:4}),'cap/hours');
+  st.rooms[0].closed[2]=true;console.assert(!ok({d:2,r:0,s:12,l:2,n:4}),'closed');st.rooms[0].closed={};
+  console.assert(!check(st,{...st.bk[1],s:19},st.bk[1]),'moving a booking must ignore itself')})();
 </script>
 </body>
 </html>
