@@ -90,7 +90,7 @@ select,input[type=text],input[type=number]{height:44px;border:1.5px solid var(--
 .edit li{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
 .step{display:flex;gap:5px;align-items:center}
 .step input{width:92px;height:36px;text-align:right;font-weight:700}
-.pill{border:1.5px solid var(--ink);background:#fff;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500}
+.pill{white-space:nowrap;border:1.5px solid var(--ink);background:#fff;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500}
 .pill[aria-pressed=true]{background:var(--ember);border-color:var(--ember);color:#fff}
 .order{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
 .talk{background:var(--tile);border-radius:4px 14px 14px 14px;padding:10px 12px;margin-top:10px;white-space:pre-line;font-size:14px;max-width:360px}
@@ -104,6 +104,8 @@ select,input[type=text],input[type=number]{height:44px;border:1.5px solid var(--
  .device{border:1px solid var(--line);border-radius:16px;height:auto}
  .device .scroll{overflow:visible}
  .row{grid-template-columns:1fr 1fr}
+ .edit li{grid-template-columns:1fr auto}
+ .edit li>div:first-child{grid-column:1/-1}
  .cap{display:none}
 }
 </style>
